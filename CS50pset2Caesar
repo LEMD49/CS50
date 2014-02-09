@@ -1,0 +1,75 @@
+//CS50 week 2 pset2 crypto assignment: caesar
+//writen by Etienne Maricq, maricq (specialsign) ieee.org
+//initiated on 3 Feb 2014
+
+#include <stdio.h>
+#include <stdlib.h> //need this library for atoi function
+#include <cs50.h>
+#include <string.h> //need this library for the strlen function
+#include <ctype.h>  //need for isalpha et al functions
+
+int wronginput();
+
+// === main ===
+
+int main(int argc, string argv[])
+
+{
+    if (argc != 2)
+    {    
+        printf(":( You should have one and only one argument. Try again\n");
+        return 1;
+    }
+    
+    //declare k after checking for k argument otherwise k=atoi(argv[1] causes segmentation error
+    int k = atoi(argv[1]); //moved above if stmt as k needs a broader scope
+
+    if (argc == 2 )
+    {
+        if ( k <= 0 )
+        {
+            wronginput();
+            return 1;
+        }
+    }
+    else
+    {
+    wronginput();
+    return 1;
+    }
+    
+//Get the Plaintext
+
+    //printf("Input: ");  is commented out since check50 does not like it
+    string p = GetString();
+    int n = strlen(p);
+    
+//Generate cyphertext
+    
+    for ( int i = 0; i < n; i++)
+    {
+         char c;
+         if (!isalpha(p[i]))
+         {
+             c = p[i];  //if non alpha then do not cypher
+             printf("%c",c);
+         }
+         else if (isupper(p[i])) //maintain uppercase
+             {
+             c = (p[i] - 'A' + k )%26 + 'A';
+             printf("%c",c);
+             }
+         else if (islower(p[i])) //maintain lowercase
+             {
+             c = (p[i] - 'a' + k )%26 + 'a';
+             printf("%c",c);
+             }
+    }
+    printf("\n");
+}
+
+int wronginput()
+{
+    printf(":( Incorrect usage\nYou must type ./caesar followed by one positive integer. Try again \n");
+    return 1; 
+}
